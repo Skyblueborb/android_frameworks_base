@@ -6773,6 +6773,11 @@ public final class ViewRootImpl implements ViewParent,
             final MotionEvent event = (MotionEvent)q.mEvent;
             mHandwritingInitiator.onTouchEvent(event);
 
+            if (event.getPointerCount() == 3 &&
+                    SystemProperties.getBoolean("sys.android.screenshot", false)) {
+                event.setAction(MotionEvent.ACTION_CANCEL);
+            }
+
             mAttachInfo.mUnbufferedDispatchRequested = false;
             mAttachInfo.mHandlingPointerEvent = true;
             boolean handled = mView.dispatchPointerEvent(event);
