@@ -6866,8 +6866,14 @@ final class ActivityRecord extends WindowToken implements WindowManagerService.A
         int activityHeight = containingAppHeight;
 
         if (containingRatio > maxAspectRatio && maxAspectRatio != 0) {
-            if (mAtmService.shouldForceLongScreen(packageName)) {
+            final DisplayContent display = getDisplay().mDisplayContent;
+            final float displayAspectRatio = display.mBaseDisplayHeight
+                    / (float) display.mBaseDisplayWidth;
+            if (mAtmService.shouldForceLongScreen(packageName) || maxAspectRatio < displayAspectRatio) {
                  // Use containingAppWidth/Height for maxActivityWidth/Height when force long screen
+
+                 // This means we are currently running on a higher than 16:9 aspect ratio device
+                 // We ignore this and let the app scale to the display's aspect ratio
             } else if (containingAppWidth < containingAppHeight) {
                 // Width is the shorter side, so we use that to figure-out what the max. height
                 // should be given the aspect ratio.
