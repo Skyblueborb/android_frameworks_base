@@ -78,6 +78,7 @@ import android.util.Log;
 
 import androidx.test.filters.SmallTest;
 
+import com.android.internal.widget.LockPatternUtils;
 import com.android.server.FgThread;
 import com.android.server.am.UserState.KeyEvictedCallback;
 import com.android.server.pm.UserManagerService;
@@ -120,6 +121,7 @@ public class UserControllerTest {
     private static final long HANDLER_WAIT_TIME_MS = 100;
 
     private UserController mUserController;
+    private LockPatternUtils mLockPatternUtils;
     private TestInjector mInjector;
     private final HashMap<Integer, UserState> mUserStates = new HashMap<>();
 
@@ -158,6 +160,13 @@ public class UserControllerTest {
             doNothing().when(mInjector).activityManagerOnUserStopped(anyInt());
             doNothing().when(mInjector).clearBroadcastQueueForUser(anyInt());
             doNothing().when(mInjector).stackSupervisorRemoveUser(anyInt());
+
+            // Make it appear that calling unlockUserKey() is needed.
+            doReturn(true).when(mInjector).isFileEncryptedNativeOnly();
+            mLockPatternUtils = mock(LockPatternUtils.class);
+            when(mLockPatternUtils.isSecure(anyInt())).thenReturn(false);
+            doReturn(mLockPatternUtils).when(mInjector).getLockPatternUtils();
+
             // All UserController params are set to default.
             mUserController = new UserController(mInjector);
             setUpUser(TEST_USER_ID, NO_USERINFO_FLAGS);
