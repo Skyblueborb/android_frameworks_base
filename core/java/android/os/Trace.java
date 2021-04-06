@@ -148,6 +148,9 @@ public final class Trace {
         if (!Build.IS_DEBUGGABLE) {
             return false;
         }
+        if (!Build.IS_ENG) {
+            return false;
+        }
 
         long tags = nativeGetEnabledTags();
         return (tags & traceTag) != 0;
