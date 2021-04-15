@@ -70,6 +70,7 @@ public class SystemBackupAgent extends BackupAgentHelper {
     private static final String DISPLAY_HELPER = "display";
     private static final String INPUT_HELPER = "input";
     private static final String WEAR_BACKUP_HELPER = "wear";
+    private static final String NETWORK_POLICY_HELPER = "network_policy";
 
     // These paths must match what the WallpaperManagerService uses.  The leaf *_FILENAME
     // are also used in the full-backup file format, so must not change unless steps are
@@ -108,7 +109,8 @@ public class SystemBackupAgent extends BackupAgentHelper {
                     COMPANION_HELPER,
                     APP_GENDER_HELPER,
                     SYSTEM_GENDER_HELPER,
-                    DISPLAY_HELPER);
+                    DISPLAY_HELPER,
+                    NETWORK_POLICY_HELPER);
 
     /** Helpers that are enabled for full, non-system users. */
     private static final Set<String> sEligibleHelpersForNonSystemUser =
@@ -159,7 +161,9 @@ public class SystemBackupAgent extends BackupAgentHelper {
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_WATCH)) {
             addHelperIfEligibleForUser(WEAR_BACKUP_HELPER, new WearBackupHelper());
         }
-    }
+
+        addHelperIfEligibleForUser(NETWORK_POLICY_HELPER, new NetworkPolicyBackupHelper(mUserId));
+    };
 
     @Override
     public void onFullBackup(FullBackupDataOutput data) throws IOException {
