@@ -6860,4 +6860,7 @@
 
     <!-- Whether the media player is shown on the quick settings -->
     <bool name="config_quickSettingsShowMediaPlayer">true</bool>
+
+    <!-- Whether devices suports in-display fingerprint when screen is off -->
+    <bool name="config_supportsScreenOffUdfps">true</bool>
 </resources>
