@@ -21,6 +21,7 @@ import static com.android.systemui.shared.Flags.sidefpsControllerRefactor;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.hardware.biometrics.BiometricRequestConstants;
+import android.hardware.biometrics.fingerprint.V2_1.IBiometricsFingerprint;
 import android.hardware.fingerprint.ISidefpsController;
 import android.hardware.fingerprint.IUdfpsOverlayController;
 import android.hardware.fingerprint.IUdfpsOverlayControllerCallback;
@@ -88,6 +89,17 @@ public final class SensorOverlays {
                 } catch (RemoteException e) {
                     Slog.e(TAG, "Remote exception when showing the side-fps overlay", e);
                 }
+        show(null, sensorId, reason, client);
+    }
+
+    public void show(IBiometricsFingerprint daemon,
+            int sensorId, @BiometricOverlayConstants.ShowReason int reason,
+            @NonNull AcquisitionClient<?> client) {
+        if (mSidefpsController.isPresent()) {
+            try {
+                mSidefpsController.get().show(sensorId, reason);
+            } catch (RemoteException e) {
+                Slog.e(TAG, "Remote exception when showing the side-fps overlay", e);
             }
         }
 
@@ -99,6 +111,23 @@ public final class SensorOverlays {
                             client.onUserCanceled();
                         }
                     };
+
+            if (daemon != null) {
+                android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint extension =
+                    android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint.castFrom(
+                    daemon);
+                if (extension != null) {
+                    try {
+                        extension.onShowUdfpsOverlay();
+                    } catch (RemoteException e) {
+                        Slog.v(TAG, "showUdfpsOverlay | RemoteException: ", e);
+                    }
+                } else {
+                    Slog.v(TAG, "onShowUdfpsOverlay | failed to cast the HIDL to V2_3");
+                }
+            } else {
+                 Slog.v(TAG, "onShowUdfpsOverlay | daemon null");
+            }
 
             try {
                 mUdfpsOverlayController.get().showUdfpsOverlay(
@@ -122,10 +151,36 @@ public final class SensorOverlays {
                 } catch (RemoteException e) {
                     Slog.e(TAG, "Remote exception when hiding the side-fps overlay", e);
                 }
+        hide(null, sensorId);
+    }
+
+    public void hide(IBiometricsFingerprint daemon, int sensorId) {
+        if (mSidefpsController.isPresent()) {
+            try {
+                mSidefpsController.get().hide(sensorId);
+            } catch (RemoteException e) {
+                Slog.e(TAG, "Remote exception when hiding the side-fps overlay", e);
             }
         }
 
         if (mUdfpsOverlayController.isPresent()) {
+            if (daemon != null) {
+                android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint extension =
+                    android.hardware.biometrics.fingerprint.V2_3.IBiometricsFingerprint.castFrom(
+                    daemon);
+                if (extension != null) {
+                    try {
+                        extension.onHideUdfpsOverlay();
+                    } catch (RemoteException e) {
+                        Slog.v(TAG, "hideUdfpsOverlay | RemoteException: ", e);
+                    }
+                } else {
+                    Slog.v(TAG, "onHideUdfpsOverlay | failed to cast the HIDL to V2_3");
+                }
+            } else {
+                Slog.v(TAG, "onHideUdfpsOverlay | daemon null");
+            }
+
             try {
                 mUdfpsOverlayController.get().hideUdfpsOverlay(sensorId);
             } catch (RemoteException e) {
