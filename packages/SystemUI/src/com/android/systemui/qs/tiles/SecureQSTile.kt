@@ -44,7 +44,9 @@ internal abstract class SecureQSTile<TState : QSTile.State> protected constructo
     protected abstract fun handleClickSecure(view: View?)
 
     override fun handleClick(view: View?) {
-        if (mKeyguard.isMethodSecure && mKeyguard.isShowing) {
+        val enabled: Boolean = LineageSettings.Secure.getInt(mContext.getContentResolver(),
+            LineageSettings.Secure.QS_TILES_REQUIRES_UNLOCKING, 1) == 1
+        if (mKeyguard.isMethodSecure && mKeyguard.isShowing && enabled) {
             mActivityStarter.postQSRunnableDismissingKeyguard {
                 handleClickSecure(view)
             }
