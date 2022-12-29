@@ -170,7 +170,7 @@ void CanvasContext::setSurface(ANativeWindow* window, bool enableTimeout) {
         mNativeSurface->init();
         if (enableTimeout) {
             // TODO: Fix error handling & re-shorten timeout
-            ANativeWindow_setDequeueTimeout(window, 4000_ms);
+            ANativeWindow_setDequeueTimeout(window, 16_ms);
         }
         mNativeSurface->setExtraBufferCount(mRenderAheadCapacity);
     } else {
