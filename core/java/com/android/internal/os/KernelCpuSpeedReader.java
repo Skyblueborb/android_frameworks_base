@@ -85,7 +85,8 @@ public class KernelCpuSpeedReader {
                 speedIndex++;
             }
         } catch (IOException e) {
-            Slog.e(TAG, "Failed to read cpu-freq: " + e.getMessage());
+            // Silence the logspam in userspace
+            // Slog.e(TAG, "Failed to read cpu-freq: " + e.getMessage());
             Arrays.fill(mDeltaSpeedTimesMs, 0);
         } finally {
             StrictMode.setThreadPolicy(policy);
@@ -112,7 +113,8 @@ public class KernelCpuSpeedReader {
                 speedIndex++;
             }
         } catch (IOException e) {
-            Slog.e(TAG, "Failed to read cpu-freq: " + e.getMessage());
+            // Silence the logspam in userspace
+            // Slog.e(TAG, "Failed to read cpu-freq: " + e.getMessage());
             Arrays.fill(speedTimeMs, 0);
         } finally {
             StrictMode.setThreadPolicy(policy);
