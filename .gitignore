@@ -2,3 +2,16 @@
 *.iml
 *.sw*
 gen/
+packages/EasterEgg/.gradle
+packages/EasterEgg/.project
+packages/EasterEgg/.settings/
+startop/apps/ColorChanging/.project
+startop/apps/ColorChanging/.settings/
+tests/HierarchyViewerTest/.project
+tests/HierarchyViewerTest/.settings/
+tests/TouchLatency/.project
+tests/TouchLatency/.settings/
+tests/UiBench/.project
+tests/UiBench/.settings/
+
+
