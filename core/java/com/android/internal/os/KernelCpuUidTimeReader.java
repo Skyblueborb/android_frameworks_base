@@ -310,14 +310,14 @@ public abstract class KernelCpuUidTimeReader<T> {
          * @param endUid   the last uid to remove
          */
         private void removeUidsFromKernelModule(int startUid, int endUid) {
-            Slog.d(mTag, "Removing uids " + startUid + "-" + endUid);
+            // Slog.d(mTag, "Removing uids " + startUid + "-" + endUid);
             final int oldMask = StrictMode.allowThreadDiskWritesMask();
             try (FileWriter writer = new FileWriter(REMOVE_UID_PROC_FILE)) {
                 writer.write(startUid + "-" + endUid);
                 writer.flush();
             } catch (IOException e) {
-                Slog.e(mTag, "failed to remove uids " + startUid + " - " + endUid
-                        + " from uid_cputime module", e);
+                // Slog.e(mTag, "failed to remove uids " + startUid + " - " + endUid
+                //         + " from uid_cputime module", e);
             } finally {
                 StrictMode.setThreadPolicyMask(oldMask);
             }
