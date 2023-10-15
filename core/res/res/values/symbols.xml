@@ -4916,4 +4916,8 @@
 
   <!-- Whether to show weather on the lockscreen by default. -->
   <java-symbol type="bool" name="config_lockscreenWeatherEnabledByDefault" />
+
+  <!-- Whether devices suports in-display fingerprint when screen is off -->
+  <java-symbol type="bool" name="config_supportsScreenOffUdfps" />
+
 </resources>

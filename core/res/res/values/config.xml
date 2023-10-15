@@ -6140,4 +6140,8 @@
     <!-- Whether we should persist the brightness value in nits for the default display even if
          the underlying display device changes. -->
     <bool name="config_persistBrightnessNitsForDefaultDisplay">false</bool>
+
+    <!-- Whether devices suports in-display fingerprint when screen is off -->
+    <bool name="config_supportsScreenOffUdfps">true</bool>
+
 </resources>
