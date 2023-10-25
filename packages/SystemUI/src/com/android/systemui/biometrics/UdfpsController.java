@@ -973,7 +973,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
                     public void onChange(boolean selfChange, Uri uri) {
                         if (uri.getLastPathSegment().equals(Settings.Secure.SCREEN_OFF_UDFPS_ENABLED)) {
                             mScreenOffFod = mSecureSettings.getIntForUser(
-                                Settings.Secure.SCREEN_OFF_UDFPS_ENABLED, 1, UserHandle.USER_CURRENT) == 1;
+                                Settings.Secure.SCREEN_OFF_UDFPS_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
                         }
                     }
                 }
