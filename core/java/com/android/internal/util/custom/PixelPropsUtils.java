@@ -174,11 +174,13 @@ public class PixelPropsUtils {
                 final String processName = Application.getProcessName();
                 if (processName.equals("com.google.android.gms.unstable")) {
                     sIsGms = true;
-                    setPropValue("FINGERPRINT", "google/marlin/marlin:7.1.2/NJH47F/4146041:user/release-keys");
-                    setPropValue("PRODUCT", "marlin");
-                    setPropValue("DEVICE", "marlin");
-                    setPropValue("MODEL", "Pixel XL");
-                    setVersionField("DEVICE_INITIAL_SDK_INT", Build.VERSION_CODES.N_MR1);
+                    setPropValue("FINGERPRINT", "google/bullhead/bullhead:8.0.0/OPR6.170623.013/4283548:user/release-keys");
+                    setPropValue("PRODUCT", "bullhead");
+                    setPropValue("DEVICE", "bullhead");
+                    setPropValue("MODEL", "Nexus 5X");
+                    setPropValue("MANUFACTURER", "LGE");
+                    setPropValue("BRAND", "GOOGLE");
+                    setVersionField("DEVICE_INITIAL_SDK_INT", Build.VERSION_CODES.N);
                 }
                 return;
             }
