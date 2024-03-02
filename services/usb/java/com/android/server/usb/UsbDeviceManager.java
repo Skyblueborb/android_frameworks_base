@@ -1421,7 +1421,8 @@ public class UsbDeviceManager implements ActivityTaskManagerInternal.ScreenObser
                 titleRes = com.android.internal.R.string.usb_charging_notification_title;
                 id = SystemMessage.NOTE_USB_CHARGING;
             } else if (mSinkPower && mConnectedToDataDisabledPort
-                    && mPowerBrickConnectionStatus != UsbPortStatus.POWER_BRICK_STATUS_CONNECTED) {
+                    && mPowerBrickConnectionStatus ==
+                            UsbPortStatus.POWER_BRICK_STATUS_DISCONNECTED) {
                 // Show charging notification when USB Data is disabled on the port, and not
                 // connected to a wall charger.
                 titleRes = com.android.internal.R.string.usb_charging_notification_title;
@@ -1679,7 +1680,7 @@ public class UsbDeviceManager implements ActivityTaskManagerInternal.ScreenObser
 
         public void setTrustRestrictUsb() {
             final int restrictUsb = LineageSettings.Global.getInt(mContentResolver,
-                    LineageSettings.Global.TRUST_RESTRICT_USB, 1);
+                    LineageSettings.Global.TRUST_RESTRICT_USB, 0);
             // Effective immediately, ejects any connected USB devices.
             // If the restriction is set to "only when locked", only execute once USB is
             // disconnected and keyguard is showing, to avoid ejecting connected devices
