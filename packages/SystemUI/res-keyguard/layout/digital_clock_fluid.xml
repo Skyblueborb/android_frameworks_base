@@ -15,7 +15,7 @@
     limitations under the License.
 -->
 
-<com.android.keyguard.clock.ClockLayout 
+<com.android.keyguard.clock.ClockLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -49,18 +49,6 @@
                 android:textColor="?attr/wallpaperTextColor"
                 android:textStyle="bold" />
 
-            <TextClock
-                android:id="@+id/seconds_clock"
-                style="@style/widget_big"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:format12Hour="ss"
-                android:format24Hour="ss"
-                android:letterSpacing="0.02"
-                android:paddingLeft="2dp"
-                android:paddingBottom="@*com.android.systemui:dimen/title_clock_padding"
-                android:textColor="@color/typeClockAccentColor" />
         </LinearLayout>
 
         <LinearLayout

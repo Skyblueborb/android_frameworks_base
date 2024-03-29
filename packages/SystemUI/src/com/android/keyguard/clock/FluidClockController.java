@@ -71,7 +71,6 @@ public class FluidClockController implements ClockPlugin {
      * Text clock in preview view hierarchy.
      */
     private TextClock mTimeClock;
-    private TextClock mSecondsClock;
     private TextClock mDay;
     private TextClock mDate;
     private TextClock mYear;
@@ -98,7 +97,6 @@ public class FluidClockController implements ClockPlugin {
 
     private void setViews(View view) {
         mTimeClock = view.findViewById(R.id.time_clock);
-        mSecondsClock = view.findViewById(R.id.seconds_clock);
         mDay = view.findViewById(R.id.clock_day);
         mDate = view.findViewById(R.id.clock_date);
         mYear = view.findViewById(R.id.clock_year);
@@ -108,7 +106,6 @@ public class FluidClockController implements ClockPlugin {
     public void onDestroyView() {
         mView = null;
         mTimeClock = null;
-        mSecondsClock = null;
         mDay = null;
         mDate = null;
         mYear = null;
@@ -178,7 +175,6 @@ public class FluidClockController implements ClockPlugin {
             return;
         }
         final int accentColor = colorPalette[Math.max(0, colorPalette.length - 5)];
-        mSecondsClock.setTextColor(accentColor);
         mDate.setTextColor(accentColor);
     }
 
@@ -187,7 +183,6 @@ public class FluidClockController implements ClockPlugin {
         if (mView != null)
             mView.onTimeChanged();
         mTimeClock.refreshTime();
-        mSecondsClock.refreshTime();
         mDay.refreshTime();
         mDate.refreshTime();
         mYear.refreshTime();
