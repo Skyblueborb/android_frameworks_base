@@ -24,6 +24,7 @@ import android.app.IActivityManager;
 import android.app.SynchronousUserSwitchObserver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -73,6 +74,8 @@ import com.android.systemui.statusbar.policy.ZenModeController;
 import com.android.systemui.util.RingerModeTracker;
 import com.android.systemui.util.time.DateFormatUtil;
 
+import lineageos.providers.LineageSettings;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
@@ -101,6 +104,7 @@ public class PhoneStatusBarPolicy
 
     static final int LOCATION_STATUS_ICON_ID = PrivacyType.TYPE_LOCATION.getIconId();
 
+    private final Context mContext;
     private final String mSlotCast;
     private final String mSlotHotspot;
     private final String mSlotBluetooth;
@@ -156,7 +160,7 @@ public class PhoneStatusBarPolicy
     private AlarmManager.AlarmClockInfo mNextAlarm;
 
     @Inject
-    public PhoneStatusBarPolicy(StatusBarIconController iconController,
+    public PhoneStatusBarPolicy(Context context, StatusBarIconController iconController,
             CommandQueue commandQueue, BroadcastDispatcher broadcastDispatcher,
             @UiBackground Executor uiBgExecutor, @Main Resources resources,
             CastController castController, HotspotController hotspotController,
@@ -173,6 +177,7 @@ public class PhoneStatusBarPolicy
             @Main SharedPreferences sharedPreferences, DateFormatUtil dateFormatUtil,
             RingerModeTracker ringerModeTracker,
             PrivacyItemController privacyItemController) {
+        mContext = context;
         mIconController = iconController;
         mCommandQueue = commandQueue;
         mBroadcastDispatcher = broadcastDispatcher;
@@ -465,6 +470,13 @@ public class PhoneStatusBarPolicy
                 contentDescription = mResources.getString(
                         R.string.accessibility_bluetooth_connected);
                 bluetoothVisible = mBluetooth.isBluetoothEnabled();
+            }
+
+            if(mBluetooth.isBluetoothEnabled() && !mBluetooth.isBluetoothConnected() &&
+                    LineageSettings.System.getIntForUser(mContext.getContentResolver(),
+                    LineageSettings.System.BLUETOOTH_ALWAYS_SHOW_ICON, 0, UserHandle.USER_CURRENT) == 1) {
+                bluetoothVisible = true;
+                iconId = R.drawable.stat_sys_data_bluetooth_enabled;
             }
         }
 
