@@ -80,7 +80,6 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
     private static final String SCREENSHOT_FILE_NAME_TEMPLATE = "Screenshot_%s.png";
     private static final String SCREENSHOT_FILE_NAME_TEMPLATE_APPNAME = "Screenshot_%s_%s.png";
     private static final String SCREENSHOT_ID_TEMPLATE = "Screenshot_%s";
-    private static final String SCREENSHOT_SHARE_SUBJECT_TEMPLATE = "Screenshot (%s)";
 
     private final Context mContext;
     private final ScreenshotSmartActions mScreenshotSmartActions;
@@ -270,8 +269,6 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
 
         // Create a share intent, this will always go through the chooser activity first
         // which should not trigger auto-enter PiP
-        String subjectDate = DateFormat.getDateTimeInstance().format(new Date(mImageTime));
-        String subject = String.format(SCREENSHOT_SHARE_SUBJECT_TEMPLATE, subjectDate);
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("image/png");
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -281,7 +278,6 @@ class SaveImageInBackgroundTask extends AsyncTask<Void, Void, Void> {
                 new String[]{ClipDescription.MIMETYPE_TEXT_PLAIN}),
                 new ClipData.Item(uri));
         sharingIntent.setClipData(clipdata);
-        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
         sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         // Make sure pending intents for the system user are still unique across users
