@@ -2527,8 +2527,6 @@ public class KeyguardViewMediator implements CoreStartable,
                 && !lockedOrMissing && !forceShow) {
             if (DEBUG) Log.d(TAG, "doKeyguard: not showing because lockscreen is off");
             notifyLockNowCallback();
-            setShowingLocked(false, mAodShowing, "doKeyguardLocked");
-            hideLocked();
             return;
         }
 
